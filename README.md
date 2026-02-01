@@ -1,4 +1,4 @@
-# 🍕 MEchelin Guide
+# 🍕 MEchelin Guide [100% API LEAK FREE]
 
 > **Discover hidden gems, not tourist traps.**
 
