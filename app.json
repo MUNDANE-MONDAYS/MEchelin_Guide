@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "MEchelin Guide",
+    "slug": "mechelin-guide",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mechelin.guide",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "MEchelin Guide needs your location to show nearby recommendations."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#D4E4F7"
+      },
+      "package": "com.mechelin.guide",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    }
+  }
+}
