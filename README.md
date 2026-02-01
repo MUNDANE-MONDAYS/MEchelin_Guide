@@ -1,100 +1,126 @@
-# 🍽️ MEchelin Guide
+# 🍕 MEchelin Guide
 
-A crowdsourced mobile app that lets locals pin and share their favorite spots with tourists. Like Michelin Guide, but by the people, for the people.
+> **Discover hidden gems, not tourist traps.**
 
-## Features
+A crowdsourced local recommendations app with a retro pixel art aesthetic. Built for people who want to explore cities like a local, not a tourist.
 
-- 📍 **Interactive Map** - Browse pins on a beautiful Mapbox map
-- 🏷️ **Tag System** - Filter by restaurant, view, nightlife, hidden-gem, and more
-- 🔍 **AI-Powered Search** - Natural language search ("quiet place to read outside")
-- 👆 **Voting** - Upvote/downvote to surface the best spots
-- 🔄 **Visitor/Poster Mode** - Toggle between exploring and contributing
-- 👤 **User Accounts** - Sign up to drop pins and vote
-
-## Tech Stack
-
-- **Frontend**: React Native (Expo)
-- **Backend**: Supabase (PostgreSQL + Auth + Realtime)
-- **Maps**: Mapbox
-- **AI**: Google Gemini API (for natural language search)
-- **Geospatial**: PostGIS
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
 
 ---
 
-## 🚀 Quick Start
+## ✨ Features
+
+### 🗺️ Explore Mode
+- **Interactive Map** - Browse pins on a map centered on your current location
+- **AI-Powered Search** - Natural language queries like "cheap food in NYC" or "romantic bars"
+- **Location Detection** - Search "coffee in Providence" to filter pins by city
+- **Tag Filtering** - Filter by categories: 🍕 Food, 🍺 Bars, 👀 Views, 💎 Hidden Gems, and more
+
+### 📌 Share Mode
+- **Create Pins** - Long-press anywhere to add your own hidden gem
+- **AI Tag Suggestions** - Automatically suggests relevant tags based on your description
+- **No Photos Required** - Keep the mystery alive! Descriptions only.
+
+### 🔥 Trending
+- **Leaderboard** - See the most upvoted spots this week
+- **Time Filters** - Today, This Week, This Month
+- **Gold/Silver/Bronze** badges for top 3
+
+### 👤 Profile & Preferences
+- **Save Spots** - Bookmark pins to visit later
+- **Set Interests** - Choose up to 5 tags to get personalized recommendations
+- **Receive Tips** - Add your Venmo/CashApp handle to receive tips for great recommendations
+
+### 🎨 Retro Pixel Art UI
+- **Windows 95 Aesthetic** - Beveled 3D buttons, window frames, title bars
+- **Cream & Sky Blue** color palette
+- **No rounded corners** - Pure pixel perfection
+
+---
+
+## 📱 Screenshots
+
+| Explore | Trending | Profile |
+|---------|----------|---------|
+| *Map with pixel markers* | *Leaderboard view* | *Preferences & saved spots* |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | React Native + Expo SDK 54 |
+| **Maps** | react-native-maps (Google Maps) |
+| **Backend** | Supabase (PostgreSQL + PostGIS) |
+| **AI Search** | OpenAI GPT-4o-mini |
+| **Auth** | Supabase Auth |
+| **Location** | expo-location |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- Expo CLI: `npm install -g expo-cli`
-- Expo Go app on your phone (for testing)
-- Accounts: Supabase, Mapbox, Google AI Studio (for AI features)
+- npm or yarn
+- Expo Go app on your phone
+- Supabase account
+- OpenAI API key (optional - fallback search works without it)
 
-### 1. Clone and Install
+### Installation
 
 ```bash
+# Clone the repo
+git clone https://github.com/yourusername/mechelin-guide.git
 cd mechelin-guide
+
+# Install dependencies
 npm install
-```
 
-### 2. Configure Supabase
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **SQL Editor** and run the contents of `sql/setup.sql`
-3. Go to **Settings → API** and copy your:
-   - Project URL
-   - Anon public key
-
-4. Update `src/lib/supabase.js`:
-```javascript
-const SUPABASE_URL = 'https://your-project-id.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key-here';
-```
-
-### 3. Configure Mapbox
-
-1. Create account at [mapbox.com](https://mapbox.com)
-2. Get your public access token from the dashboard
-3. Update `src/lib/constants.js`:
-```javascript
-export const MAPBOX_ACCESS_TOKEN = 'pk.your-token-here';
-```
-
-4. Update `app.json` with your secret token (for builds):
-```json
-"plugins": [
-  ["@rnmapbox/maps", {
-    "RNMapboxMapsDownloadToken": "sk.your-secret-token"
-  }]
-]
-```
-
-### 4. Configure AI Search (Optional)
-
-1. Get an API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Update `src/lib/ai.js`:
-```javascript
-const GEMINI_API_KEY = 'your-gemini-api-key-here';
-```
-
-### 5. Set Your City
-
-Update `src/lib/constants.js` with your city's coordinates:
-```javascript
-export const DEFAULT_LOCATION = {
-  longitude: -73.9857,  // Your city's longitude
-  latitude: 40.7484,    // Your city's latitude
-  zoom: 12,
-};
-```
-
-### 6. Run the App
-
-```bash
-npx expo start
+# Start the development server
+npx expo start --tunnel
 ```
 
 Scan the QR code with Expo Go (Android) or Camera app (iOS).
+
+---
+
+## ⚙️ Configuration
+
+### 1. Supabase Setup
+
+1. Create a new project at [supabase.com](https://supabase.com)
+2. Go to **SQL Editor** and run these files in order:
+   ```
+   sql/complete-setup.sql      # Tables, functions, triggers
+   sql/fix-all-issues.sql      # RLS policies
+   sql/preferences-trending.sql # Preferences & trending features
+   sql/providence-seed-data.sql # 25 Providence, RI locations
+   ```
+3. Go to **Authentication → Providers → Email** and disable "Confirm email"
+4. Copy your project URL and anon key from **Settings → API**
+
+### 2. Update Credentials
+
+Edit `src/lib/supabase.js`:
+```javascript
+const supabaseUrl = 'https://your-project.supabase.co';
+const supabaseAnonKey = 'your-anon-key';
+```
+
+### 3. OpenAI API Key (Optional)
+
+Edit `src/lib/ai.js`:
+```javascript
+const OPENAI_API_KEY = 'sk-your-api-key';
+```
+
+> **Note:** The app works without an OpenAI key! The fallback search uses intelligent category detection and tag matching.
 
 ---
 
@@ -102,30 +128,57 @@ Scan the QR code with Expo Go (Android) or Camera app (iOS).
 
 ```
 mechelin-guide/
-├── App.js                    # Entry point with navigation
+├── App.js                    # Navigation & tab setup
 ├── app.json                  # Expo config
-├── package.json
-├── sql/
-│   └── setup.sql            # Database schema & functions
-└── src/
-    ├── components/
-    │   ├── CreatePinModal.js    # Pin creation form
-    │   ├── ModeToggle.js        # Visitor/Poster switch
-    │   ├── PinDetails.js        # Bottom sheet for pin info
-    │   ├── PinMarker.js         # Custom map marker
-    │   └── SearchBar.js         # AI-powered search
-    ├── hooks/
-    │   ├── useAppMode.js        # Visitor/Poster state
-    │   └── useAuth.js           # Authentication context
-    ├── lib/
-    │   ├── ai.js                # Claude API integration
-    │   ├── constants.js         # Tags, colors, config
-    │   └── supabase.js          # Database client & functions
-    └── screens/
-        ├── AuthScreen.js        # Login/Signup
-        ├── MapScreen.js         # Main map view
-        └── ProfileScreen.js     # User profile
+├── src/
+│   ├── components/
+│   │   ├── CreatePinModal.js     # Pin creation form
+│   │   ├── ModeTogglePixel.js    # Explore/Share toggle
+│   │   ├── PinDetailsPixel.js    # Pin detail sheet
+│   │   ├── PixelUI.js            # Reusable pixel components
+│   │   ├── PreferencesSelector.js # Tag preference picker
+│   │   ├── RecommendationPopup.js # Personalized recommendations
+│   │   ├── SearchBarPixel.js     # AI search + tag filters
+│   │   └── TrendingSection.js    # Trending component
+│   ├── hooks/
+│   │   ├── useAuth.js            # Authentication context
+│   │   └── useAppMode.js         # Explore/Share mode context
+│   ├── lib/
+│   │   ├── ai.js                 # OpenAI search + fallback
+│   │   ├── constants.js          # Colors, tags, theme
+│   │   ├── stripe.js             # Tipping utilities
+│   │   └── supabase.js           # Database functions
+│   └── screens/
+│       ├── AuthScreen.js         # Login/Signup
+│       ├── MapScreenPixel.js     # Main map view
+│       ├── ProfileScreen.js      # User profile
+│       └── TrendingScreen.js     # Trending leaderboard
+└── sql/
+    ├── complete-setup.sql        # Full database schema
+    ├── fix-all-issues.sql        # RLS policy fixes
+    ├── preferences-trending.sql  # New features
+    └── providence-seed-data.sql  # Seed data
 ```
+
+---
+
+## 🎯 Search Examples
+
+| Query | What it does |
+|-------|--------------|
+| `cheap food` | Finds pins tagged with `restaurant` + `cheap` |
+| `bars in NYC` | Filters to New York City, shows bars |
+| `romantic date spots` | Matches `romantic` tag |
+| `free things to do` | Shows pins tagged `free` |
+| `hidden gems providence` | Filters to Providence, shows `hidden-gem` tags |
+
+### Supported Cities
+- New York City / NYC / Manhattan / Brooklyn
+- Providence / PVD / Rhode Island
+- Boston
+- Los Angeles / LA
+- Chicago
+- San Francisco / SF
 
 ---
 
@@ -133,97 +186,72 @@ mechelin-guide/
 
 ### Tables
 
-- **profiles** - User data (extends Supabase auth)
-- **pins** - Location pins with title, description, tags
-- **votes** - Upvotes/downvotes on pins
+| Table | Description |
+|-------|-------------|
+| `profiles` | User profiles with preferences |
+| `pins` | Location pins with PostGIS geometry |
+| `votes` | Upvotes/downvotes on pins |
+| `saved_pins` | User's saved/bookmarked pins |
+| `tips` | Tip transactions between users |
 
 ### Key Functions
 
-- `get_pins_with_votes()` - Fetch all pins with aggregated vote counts
-- `pins_within_distance(lng, lat, meters)` - Geospatial proximity search
-- `upsert_vote(pin_id, user_id, value)` - Create or update a vote
+| Function | Description |
+|----------|-------------|
+| `get_pins_with_votes()` | Returns pins with vote counts |
+| `get_trending_pins(days, limit)` | Trending pins by recent votes |
+| `get_recommendations_for_user(user_id)` | Personalized recommendations |
+| `handle_new_user()` | Auto-creates profile on signup |
 
 ---
 
-## 🎯 Hackathon Build Order
+## 🎨 Theme Customization
 
-| Hour | Task |
-|------|------|
-| 0-2 | Set up accounts, run SQL, get map displaying |
-| 2-4 | Fetch and display pins from Supabase |
-| 4-6 | Pin details view on tap |
-| 6-8 | Create pin flow (long-press → form → save) |
-| 8-10 | Voting functionality |
-| 10-12 | Visitor/Poster mode toggle |
-| 12-14 | AI-powered search |
-| 14-16 | Polish UI, loading states |
-| 16-18 | Bug fixes, edge cases |
-| 18-22 | Testing on real device |
-| 22-24 | Demo prep, pitch practice |
+The pixel art theme is defined in `src/lib/constants.js`:
 
-### If Behind Schedule, Cut:
-
-1. AI search → just use tag filtering
-2. Auth → let everyone post anonymously
-3. Visitor/Poster toggle → single mode
-
----
-
-## 🧪 Seed Data
-
-Add some test pins in Supabase Table Editor or run:
-
-```sql
-INSERT INTO pins (title, description, tags, location) VALUES
-('Best Coffee Downtown', 'Tiny shop with amazing pour-over. Try the Ethiopian.', 
- ARRAY['cafe', 'hidden-gem'], ST_MakePoint(-73.985, 40.748)::geography),
- 
-('Sunset View Spot', 'Perfect for golden hour photos. Free parking nearby.', 
- ARRAY['view', 'free', 'romantic'], ST_MakePoint(-73.990, 40.750)::geography),
- 
-('Late Night Tacos', 'Cash only, open until 3am. The al pastor is incredible.', 
- ARRAY['restaurant', 'cheap', 'nightlife'], ST_MakePoint(-73.982, 40.745)::geography);
+```javascript
+export const COLORS = {
+  background: '#D4E4F7',    // Light blue grid
+  surface: '#FFF8E7',       // Cream panels
+  surfaceAlt: '#FFE4C9',    // Peachy panels
+  titleBar: '#7BC9FF',      // Sky blue headers
+  primary: '#FF6B6B',       // Coral red buttons
+  text: '#5D4E37',          // Dark brown text
+  upvote: '#7BC9FF',        // Blue upvote
+  downvote: '#FFB4B4',      // Pink downvote
+};
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## 🤝 Contributing
 
-### Map not loading
-- Check Mapbox token is correct
-- Ensure `@rnmapbox/maps` is properly installed
-- Try running `npx expo start --clear`
-
-### Supabase errors
-- Verify RLS policies are set up
-- Check the anon key (not the service key)
-- Enable PostGIS extension
-
-### Location not working
-- Grant location permissions in device settings
-- iOS requires explicit permission request
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
-## 📱 Demo Tips
+## 📝 License
 
-1. Pre-seed 10-15 diverse pins across different neighborhoods
-2. Test the full flow: sign up → drop pin → vote
-3. Show AI search with natural language queries
-4. Highlight the visitor/poster mode switch
-5. Emphasize the hyperlocal, community-driven angle
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🚢 Next Steps (Post-Hackathon)
+## 🙏 Acknowledgments
 
-- [ ] Photo uploads for pins
-- [ ] User verification system
-- [ ] Curated "trails" (walking tours)
-- [ ] Push notifications for nearby pins
-- [ ] Tipping/support for contributors
-- [ ] Web version for trip planning
+- Inspired by the anti-algorithm movement
+- Windows 95 UI aesthetic
+- Local food bloggers and hidden gem hunters everywhere
 
 ---
 
-Built with ❤️ for [Hackathon Name]
+<p align="center">
+  <b>Stop following the algorithm. Start exploring.</b>
+</p>
+
+<p align="center">
+  Hack@Brown 2026 SOLO HACK
+</p>
